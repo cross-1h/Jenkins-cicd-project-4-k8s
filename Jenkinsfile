@@ -46,7 +46,7 @@ pipeline {
         stage('Docker Build') {
             steps {
                 dir('app') {
-                    sh 'docker build -t ${IMAGE}:${IMAGE_TAG} -t ${IMAGE}:latest .'
+                    sh 'docker build --platform linux/amd64 -t ${IMAGE}:${IMAGE_TAG} -t ${IMAGE}:latest .'
                 }
             }
         }
