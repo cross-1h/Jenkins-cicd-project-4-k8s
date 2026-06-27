@@ -1,4 +1,7 @@
-FROM eclipse-temurin:17-jre
+#FROM eclipse-temurin:17-jre
+
+# Force the base image to pull the standard AMD64 architecture for EKS
+FROM --platform=linux/amd64 eclipse-temurin:17-jre
 
 WORKDIR /usr/src/app
 
