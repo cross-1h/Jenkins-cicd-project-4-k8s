@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cicd-app
+spec:
+  # On EKS, type LoadBalancer makes AWS create a load balancer with a public
+  # address, so you can reach the app from a browser. It takes a couple of
+  # minutes to appear and it costs money while it exists, so delete it when done.
+  type: LoadBalancer
+  selector:
+    app: cicd-app
+  ports:
+    - port: 80          # the public port on the load balancer
+      targetPort: 8080  # the container port the app listens on

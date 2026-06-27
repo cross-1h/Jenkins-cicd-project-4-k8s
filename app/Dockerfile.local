@@ -1,0 +1,17 @@
+# Dockerfile for LOCAL practice (minikube). Multi-stage: it builds the JAR
+# with Maven inside Docker, so you do NOT need Maven on your machine.
+# The pipeline uses the other Dockerfile (it builds the JAR in the Package
+# stage first); this one is for building the image yourself locally.
+
+FROM maven:3.9-eclipse-temurin-17 AS build
+WORKDIR /src
+COPY pom.xml .
+RUN mvn -B -ntp dependency:go-offline
+COPY src ./src
+RUN mvn -B -ntp clean package -DskipTests
+
+FROM eclipse-temurin:17-jre
+WORKDIR /usr/src/app
+COPY --from=build /src/target/app.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
